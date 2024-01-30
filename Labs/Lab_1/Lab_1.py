@@ -1,3 +1,7 @@
+# This code follows the instructions given for Lab 1 of APPM 4600
+# The code tests elementary python and numpy commands.
+
+
 #import math
 import numpy as np
 import matplotlib.pyplot as plt
