@@ -1,0 +1,7 @@
+APPM 4600: Prelab 2 
+
+Name: Becca Blum
+
+I downloaded and installed Git (I already have a Github account with my school
+email) and set up an SSH key so I can pull and push things to and from Github. I 
+also read through the rest of the lab instructions. 
