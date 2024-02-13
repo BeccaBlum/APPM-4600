@@ -17,14 +17,31 @@ def fixedpt(f,x0,tol,Nmax):
           xstar = x1
           ier = 0
           x_array = np.array(x_list)
-          return [xstar, ier, x_array]
+          return [xstar, ier, x_list]
        x0 = x1
 
     xstar = x1
     ier = 1
     x_array = np.array(x_list)
-    return [xstar, ier, x_array]
+    return [xstar, ier, x_list]
     
+def aitken(pn):
+   pn_new_list = []
+
+   for i in range(len(pn)-2):
+      pn_new = pn[i] - (pn[i+1] - pn[i])**2/(pn[i+2] - 2*pn[i+1] + pn[i])
+      pn_new_list.append(pn_new)
+   
+   pn_accel = np.array(pn_new_list)
+
+   return pn_accel
+
+def order_of_convergence(pn):
+   conv = []
+   for i in range(len(pn)-2):
+      conv.append(abs(pn[i+1] - pn[i+2])/abs(pn[i] - pn[i+2]))
+
+   return np.array(conv)
 
 f1 =lambda x: (10/(x+4))**(1/2)
 
@@ -37,4 +54,15 @@ x0 = 1.5
 print('the approximate fixed point is:',xstar)
 print('f1(xstar):',f1(xstar))
 print('Error message reads:',ier)
-print(len(x_list))
+print(x_list)
+
+aitken_array = aitken(x_list)
+print("\n")
+print(aitken_array)
+
+x_conv = order_of_convergence(x_list)
+aitken_conv = order_of_convergence(aitken_array)
+
+print(x_conv)
+print("\n")
+print(aitken_conv)
