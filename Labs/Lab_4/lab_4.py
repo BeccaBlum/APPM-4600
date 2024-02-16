@@ -17,13 +17,13 @@ def fixedpt(f,x0,tol,Nmax):
           xstar = x1
           ier = 0
           x_array = np.array(x_list)
-          return [xstar, ier, x_list]
+          return [xstar, ier, x_array]
        x0 = x1
 
     xstar = x1
     ier = 1
     x_array = np.array(x_list)
-    return [xstar, ier, x_list]
+    return [xstar, ier, x_array]
     
 def aitken(pn):
    pn_new_list = []
