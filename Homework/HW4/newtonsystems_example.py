@@ -30,7 +30,6 @@ def driver():
     plt.plot(np.arange(its),np.log10(err2[0:its]));
     plt.show();
 
-
 def evalF(x):
 
     F = np.zeros(3)
@@ -42,12 +41,10 @@ def evalF(x):
 
 def evalJ(x):
 
-
     J = np.array([[3.0, x[2]*math.sin(x[1]*x[2]), x[1]*math.sin(x[1]*x[2])],
         [2.*x[0], -162.*(x[1]+0.1), math.cos(x[2])],
         [-x[1]*np.exp(-x[0]*x[1]), -x[0]*np.exp(-x[0]*x[1]), 20]])
     return J
-
 
 def Newton(x0,tol,Nmax):
 
