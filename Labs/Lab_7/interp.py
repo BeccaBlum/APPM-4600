@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 def driver():
 
 
-    f = lambda x: np.exp(x)
+    f = lambda x: np.sinc(5*x) #1/(1 + (10*x)**2)
 
-    N = 3
+    N = 32
     ''' interval'''
-    a = 0
+    a = -1
     b = 1
    
    
@@ -24,6 +24,11 @@ def driver():
     xeval = np.linspace(a,b,Neval+1)
     yeval_l= np.zeros(Neval+1)
     yeval_dd = np.zeros(Neval+1)
+    yeval_mono = np.zeros(Neval+1)
+
+    # Monomial Expansion
+    a_coeff = monomial_exp(f, N)
+    yeval_mono = np.polyval(a_coeff,xeval)
   
     '''Initialize and populate the first columns of the 
      divided difference matrix. We will pass the x vector'''
@@ -38,7 +43,6 @@ def driver():
        yeval_l[kk] = eval_lagrange(xeval[kk],xint,yint,N)
        yeval_dd[kk] = evalDDpoly(xeval[kk],xint,y,N)
           
-
     
 
 
@@ -46,18 +50,22 @@ def driver():
     fex = f(xeval)
        
 
-    plt.figure()    
-    plt.plot(xeval,fex,'ro-')
-    plt.plot(xeval,yeval_l,'bs--') 
-    plt.plot(xeval,yeval_dd,'c.--')
-    plt.legend()
+    #plt.figure()    
+    #plt.plot(xeval,fex,'ro-',label='f(x)')
+    #plt.plot(xeval,yeval_l,'bs--', label='lagrange') 
+    #plt.plot(xeval,yeval_dd,'c.--', label='Newton DD')
+    #plt.plot(xeval,yeval_mono,'k.--', label='Mono')
+    #plt.legend()
 
     plt.figure() 
     err_l = abs(yeval_l-fex)
     err_dd = abs(yeval_dd-fex)
-    plt.semilogy(xeval,err_l,'ro--',label='lagrange')
-    plt.semilogy(xeval,err_dd,'bs--',label='Newton DD')
-    plt.legend()
+    err_mono = abs(yeval_mono - fex)
+    plt.title("Error from interpolation polynomials \n with degree N = " + str(N))
+    plt.semilogy(xeval,err_l,'bo--',label='lagrange')
+    plt.semilogy(xeval,err_dd,'r--',label='Newton DD')
+    plt.semilogy(xeval,err_mono,'ks--',label='Mono')
+    plt.legend(['lagrange','Newton DD', 'Mono'])
     plt.show()
 
 def eval_lagrange(xeval,xint,yint,N):
@@ -103,6 +111,20 @@ def evalDDpoly(xval, xint,y,N):
 
     return yeval
 
-       
+def monomial_exp(f, Neval):
+    xeval = np.zeros(Neval+1)
+    yeval = np.zeros(Neval+1)
+
+    h = 2/(Neval-1)
+    for j in range(Neval+1):
+        xeval[j] = -1 + (j - 1)*h
+        yeval[j] = f(xeval[j])
+
+    print(len(xeval))
+    V = np.vander(xeval)
+    a_coeff = np.linalg.solve(V,yeval)
+
+    return a_coeff
+
 
 driver()        
