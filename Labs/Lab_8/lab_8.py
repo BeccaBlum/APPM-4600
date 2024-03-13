@@ -5,16 +5,17 @@ from numpy.linalg import inv
 from make_line import make_line
 
 def driver():
-    f = lambda x: np.exp(x)
-    a = 0
+    f = lambda x: 1/(1+(10*x)**2)
+    a = -1
     b = 1
     # create points you want to evaluate at
-    Neval = 100
+    Neval = 1000
     xeval = np.linspace(a,b,Neval)
     # number of intervals
     Nint = 10
     # evaluate the linear spline
     yeval = eval_lin_spline(xeval,Neval,a,b,f,Nint)
+    '''
     # evaluate f at the evaluation points
     fex = f(xeval)
     plt.figure()
@@ -24,8 +25,9 @@ def driver():
     plt.show()
     err = abs(yeval-fex)
     plt.figure()
-    plt.plot(xeval,err,'ro-')
+    plt.semilogy(xeval,err,'ro-')
     plt.show()
+    '''
 
 def eval_lin_spline(xeval,Neval,a,b,f,Nint):
     # create the intervals for piecewise approximations
