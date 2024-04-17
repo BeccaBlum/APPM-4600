@@ -11,12 +11,12 @@ def ridge_regres(A,b,gamma, deg):
 
 n = 20
 k = 10
-N = 100
+N = 300
 deg = 1
 x = np.linspace(0,10,20)
 f = 3*x + 2
 
-gamma = np.arange(-2,4,0.1)
+gamma = np.arange(-2,2,0.1)
 
 RSS_min = np.zeros(N)
 RSS_min_index = np.zeros(N)
@@ -50,23 +50,35 @@ for ii in range(N):
         Err_squ = abs(P_control - y_control)**2
 
         RSS.append(np.sum(Err_squ)) #Residual sum of squares
-    print(ii)
+    #print(ii)
     #print(RSS)
     RSS_min_index[ii] = int(np.where(RSS == np.min(RSS))[0][0])
-    RSS_min[ii] = int(np.min(RSS))
-    print(RSS_min[ii])
+    RSS_min[ii] = np.min(RSS)
+    #print(RSS_min[ii])
     gammas[ii] = gamma[int(RSS_min_index[ii])]
-    RSS_list = [RSS_list, np.array(RSS)]
+    #RSS_list = [RSS_list, np.array(RSS)]
+    plt.plot(range(len(gamma)),RSS)
 
+plt.xlabel("gamma")
+plt.ylabel("Residual Sum of Squares")
+plt.show()
 #print(RSS_list[0][0][0][0][0])
 #print(RSS_min)
 #print(gammas)
 plt.scatter(gammas, RSS_min)
+plt.xlabel("gamma")
+plt.ylabel("Minimum Residual Sum of Squares")
+#plt.title("Minimum Residual Sum of Squares with respect to values of gamma between -2 and 2 \n with 100 random error trials")
+plt.show()
+
+plt.hist(gammas, bins=15)
+plt.xlabel("gamma")
+plt.ylabel("Number of Minimum Residual Sum of Squares")
 plt.show()
 
 #for 
-plt.plot(range(len(gamma)), RSS_list)
-plt.show()
+#plt.plot(range(len(gamma)), RSS_list)
+#plt.show()
 
 '''
 plt.plot(x,P)
